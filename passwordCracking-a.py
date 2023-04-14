@@ -2,15 +2,7 @@
 
 import random
 import hashlib
-import pyttsx3
-
-engine = pyttsx3.init()
-
-def speak(text):
-	print(text)
-	engine.say(text)
-	engine.runAndWait()
-	engine.stop()
+import os
 
 chars = '\'ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890qwertyuiopasdfghjklzxcv"bnm_!@#$%^&*()-=+<>,./?}][{\|'
 numbers = '1234567890'
@@ -27,7 +19,7 @@ if hashed == "y" or hashed == "Y" or hashed == "YES" or hashed ==  "yes":
 	digest = hash_word.hexdigest()
 	if digest == _password:
 		print("Password: ", digest)
-		speak("Password Cracked Successfully")
+		os.system('espeak "Password Cracked Successfully"')
 else:
 	type = input("Enter type of password: ")
 
@@ -41,12 +33,12 @@ else:
 				print(">>>" + str(hit_password) + "<<<")
 				if (hit_password == list(str(password))):
 					print("The Password is: " + "".join(hit_password))
-					speak("Password Cracked Successfully")
+					os.system('espeak "Password Cracked Successfully"')
 					break
 
 		except ValueError:
 			print("Enter a valid password")
-			speak("Enter Valid Password")
+			os.system('espeak "Enter Valid Password"')
 	elif type == "char" or type == "characters":
 		password = input("Enter your password: ")
 		while (hit_password != password):
@@ -54,5 +46,5 @@ else:
 			print(">>>" + str(hit_password) + "<<<")
 			if (hit_password == list(password)):
 				print("The Password is: " + "".join(hit_password))
-				speak("Password Cracked Successfully")
+				os.system('espeak "Password Cracked Successfully"')
 				break
