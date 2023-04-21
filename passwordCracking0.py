@@ -14,9 +14,14 @@ def speak(text):
 	engine.stop()
 
 chars = '\'ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890qwertyuiopasdfghjklzxcv"bnm_!@#$%^&*()-=+<>,./?}][{\|'
+insta_chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_.-'
 numbers = '1234567890'
 
-allchars = list(chars)
+chartype = input("Enter i for insta password")
+if chartype == "i" or chartype == "I":
+	allchars = list(insta_chars)
+else:
+	allchars = list(chars)
 allnumbers = list(numbers)
 
 hashed = input("Hashed y/n: ")
@@ -36,11 +41,11 @@ else:
 
 	if type == "number":
 		try:
-			password = int(input("Enter an password: "))
-			while (hit_password != password):
-				hit_password = random.choices(allnumbers, k=len(str(password)))
-				print(">>>" + str(hit_password) + "<<<")
-				if (hit_password == list(str(password))):
+			password = input("Enter a password: ")
+			while hit_password != password:
+				hit_password = random.choices(allnumbers, k=len(password))
+				print(">>>[" + ",".join(hit_password) + "]<<<")
+				if hit_password == list(password):
 					print("The Password is: " + "".join(hit_password))
 					speak("Password Cracked Successfully")
 					break
@@ -49,10 +54,13 @@ else:
 			print("Enter a valid password")
 			speak("Enter Valid Password")
 	elif type == "char" or type == "characters":
+		i = 0
 		password = pyautogui.password("Enter your password: ")
 		while (hit_password != password):
 			hit_password = random.choices(allchars, k=len(password))
 			print(">>>" + str(hit_password) + "<<<")
+			i+=1
+			print(i)
 			if (hit_password == list(password)):
 				print("The Password is: " + "".join(hit_password))
 				speak("Password Cracked Successfully")
