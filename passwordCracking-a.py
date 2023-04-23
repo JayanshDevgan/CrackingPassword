@@ -2,12 +2,23 @@
 
 import random
 import hashlib
+import pyttsx3
 import os
 
+engine = pyttsx3.init()
+
+def speak(text):
+	os.system(f"espeak { text }")
+
 chars = '\'ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890qwertyuiopasdfghjklzxcv"bnm_!@#$%^&*()-=+<>,./?}][{\|'
+insta_chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_.-'
 numbers = '1234567890'
 
-allchars = list(chars)
+chartype = input("Enter i for insta password: ")
+if chartype == "i" or chartype == "I":
+	allchars = list(insta_chars)
+else:
+	allchars = list(chars)
 allnumbers = list(numbers)
 
 hashed = input("Hashed y/n: ")
@@ -19,7 +30,7 @@ if hashed == "y" or hashed == "Y" or hashed == "YES" or hashed ==  "yes":
 	digest = hash_word.hexdigest()
 	if digest == _password:
 		print("Password: ", digest)
-		os.system('espeak "Password Cracked Successfully"')
+		speak("Password Cracked Successfully")
 else:
 	type = input("Enter type of password: ")
 
@@ -27,24 +38,54 @@ else:
 
 	if type == "number":
 		try:
-			password = int(input("Enter an password: "))
-			while (hit_password != password):
-				hit_password = random.choices(allnumbers, k=len(str(password)))
-				print(">>>" + str(hit_password) + "<<<")
-				if (hit_password == list(str(password))):
-					print("The Password is: " + "".join(hit_password))
-					os.system('espeak "Password Cracked Successfully"')
-					break
+			password = input("Enter a password: ")
+			# while hit_password != password:
+			# 	hit_password = random.choices(allnumbers, k=len(password))
+			# 	print(">>>[" + ",".join(hit_password) + "]<<<")
+			# 	if hit_password == list(password):
+			# 		print("The Password is: " + "".join(hit_password))
+			# 		speak("Password Cracked Successfully")
+			# 		break
+			for i in range(len(password)):
+				hit_char = ""
+
+				while hit_char != password[i]:
+					hit_char = random.choice(allnumbers)
+					print("Cracking character " + str(i+1) + " of " + str(len(password)) + ": " + hit_char)
+
+				hit_password += hit_char
+
+				if hit_password == password[:i+1]:
+					i+=1
+			print("The Password is: " + hit_password)
+			speak("Password Cracked Successfully")
+
 
 		except ValueError:
 			print("Enter a valid password")
-			os.system('espeak "Enter Valid Password"')
+			speak("Enter Valid Password")
 	elif type == "char" or type == "characters":
+		i = 0
 		password = input("Enter your password: ")
-		while (hit_password != password):
-			hit_password = random.choices(allchars, k=len(password))
-			print(">>>" + str(hit_password) + "<<<")
-			if (hit_password == list(password)):
-				print("The Password is: " + "".join(hit_password))
-				os.system('espeak "Password Cracked Successfully"')
-				break
+		# while (hit_password != password):
+		# 	hit_password = random.choices(allchars, k=len(password))
+		# 	print(">>>" + str(hit_password) + "<<<")
+		# 	i+=1
+		# 	print(i)
+		# 	if (hit_password == list(password)):
+		# 		print("The Password is: " + "".join(hit_password))
+		# 		speak("Password Cracked Successfully")
+		# 		break
+		for i in range(len(password)):
+				hit_char = ""
+
+				while hit_char != password[i]:
+					hit_char = random.choice(allchars)
+					print("Cracking character " + str(i+1) + " of " + str(len(password)) + ": " + hit_char)
+
+				hit_password += hit_char
+
+				if hit_password == password[:i+1]:
+					i+=1
+		print("The Password is: " + hit_password)
+		speak("Password Cracked Successfully")
